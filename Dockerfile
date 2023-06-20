@@ -1,17 +1,34 @@
-FROM node:14
+# Use an official Node.js runtime as the base image
+FROM node:18 as build-stage
 
+# Set the working directory in the container
 WORKDIR /client
 
-COPY package*.json ./
+# Copy package.json and package-lock.json to the container
+COPY package*.json .
 
+# Install dependencies
 RUN npm install
 
+ENV NODE_ENV=development
+ENV REACT_APP_STRIPE_PUBLIC_KEY=pk_test_51MwbYWDZhLa238hLQgae6bzkliuSe01YV3cJ0OP7ic3i6ZiFoakMFkzRdMvaof6eLr1hGrewZCn84IEITXzppYev0011fZFAuz
+ENV REACT_APP_BACKEND_URL=http://54.176.213.148:1338
+
+
+# Copy the entire project to the container
 COPY . .
 
-# ENV FE_ENV=${FE_ENV}
+# Build the React app for production
+RUN npm run build
 
-ENV PORT=3000
+# Use a lightweight Nginx image as the base for serving the app
+FROM nginx:1.21
 
-EXPOSE 3000
+# Copy the build files from the build-stage to the Nginx server directory
+COPY --from=build-stage /client/build /usr/share/nginx/html
 
-CMD ["npm", "start"]
+# Expose port 80 to the outside world
+EXPOSE 80
+
+# Start Nginx when the container starts
+CMD ["nginx", "-g", "daemon off;"]

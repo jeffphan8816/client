@@ -1,4 +1,4 @@
-const cartLocalStorageMiddleware = ({ getState }) => next => action => {
+export const cartLocalStorageMiddleware = ({ getState }) => next => action => {
   const result = next(action);
 
   if (action.type === 'cart/addToCart' || action.type === 'cart/removeFromCart' || action.type === 'cart/increaseQuantity' || action.type === 'cart/decreaseQuantity') {
@@ -9,4 +9,4 @@ const cartLocalStorageMiddleware = ({ getState }) => next => action => {
   return result;
 };
 
-module.exports = cartLocalStorageMiddleware;
+

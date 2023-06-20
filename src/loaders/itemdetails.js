@@ -1,6 +1,6 @@
 export const itemLoader = async ({params }) => {
     const response = await fetch(
-      `http://localhost:1338/api/items/${params.itemId}?populate=image`,
+      `${process.env.REACT_APP_BACKEND_URL}/api/items/${params.itemId}?populate=image`,
       { method: "GET" }
     );
     const data = await response.json();

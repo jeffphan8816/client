@@ -71,7 +71,7 @@ const Layout = () => {
               // },
               fontSize: isMobile ? "0.85rem" : "1.5rem",
             }}
-            color='#53e3ab'
+            color='#black'
             fontWeight='bold'
             fontStyle='italic'
             fontFamily='cursive'

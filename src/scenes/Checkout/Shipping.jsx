@@ -11,7 +11,7 @@ const Shipping = ({
   setFieldValue,
 }) => {
   return (
-    <Box>
+    <Box m="10px 0">
       <Box>
         <Typography>Billing Information</Typography>
         <AddressForm
@@ -25,12 +25,12 @@ const Shipping = ({
       </Box>
       <Box>
         <FormControlLabel
+          label="Same as Billing Address"
           control={
             <Checkbox
               defaultChecked
               value={values.shippingAddress.isSameAsBilling}
               onChange={() => {
-                // console.log(typeof(!values.shippingAddress.isSameAsBilling))
                 setFieldValue(
                   "shippingAddress.isSameAsBilling",
                   !values.shippingAddress.isSameAsBilling

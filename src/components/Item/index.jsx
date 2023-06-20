@@ -14,7 +14,7 @@ export const Item = ({ item, width }) => {
     palette: { neutral },
   } = useTheme();
 
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const { name, category, price, image } = item.attributes;
 
@@ -39,7 +39,7 @@ export const Item = ({ item, width }) => {
           alt={item.name}
           width='300px'
           height='400px'
-          src={`http://localhost:1338${url}`}
+          src={`${process.env.REACT_APP_BACKEND_URL}${url}`}
           onClick={() => navigate(`/item/${item.id}`)}
           style={{ cursor: "pointer" }}
         />

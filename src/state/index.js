@@ -4,7 +4,7 @@ const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const initialState = {
   isCartOpen: false,
-  cart: savedCart.cart,
+  cart: savedCart.cart || [],
   items: [],
 };
 

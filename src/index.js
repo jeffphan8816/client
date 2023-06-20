@@ -6,7 +6,17 @@ import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme";
 import { CssBaseline } from "@mui/material";
 import { Provider } from "react-redux";
-import store from "./store";
+import { configureStore } from "@reduxjs/toolkit";
+import {cartLocalStorageMiddleware} from "./middlewares";
+import cartReducer from "./state";
+
+const store = configureStore({
+  reducer: {
+    cart: cartReducer,
+  },
+  middleware: [cartLocalStorageMiddleware],
+});
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

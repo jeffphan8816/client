@@ -12,7 +12,7 @@ const importAll = (r) =>
   }, {});
 
 export const heroTextureImports = importAll(
-  require.context("../../assets", false, /\.(png|jpe?g|svg)$/)
+  require.context("../../../public/assets", false, /\.(png|jpe?g|svg)$/)
 );
 
 const MainCarousel = () => {
@@ -69,21 +69,29 @@ const MainCarousel = () => {
                 backgroundAttachment: "fixed",
               }}
             />
-            <Typography
-              variant='h1'
-              color='white'
-              sx={{
-                position: "absolute",
-                top: "50%",
-                // left: "50%",
-                // transform: "translate(-50%, -50%)",
-                width: "100%",
-              }}
+            <Box 
+              color="white"
+              padding="20px"
+              borderRadius="1px"
+              textAlign="left"
+              backgroundColor="rgb(0, 0, 0, 0.4)"
+              position="absolute"
+              bottom="5%"
+              left="5%"
+
+              margin={!isMobile ? undefined : "0 auto"}
+              maxWidth={!isMobile ? undefined : "240px"}
             >
-              {isMobile ? "Welcome to" : "Welcome to the"}
-              <br />
-              {isMobile ? "Boutique" : "Boutique"}
-            </Typography>
+              <Typography
+                variant='h1'
+                color='white'
+                textAlign={"center"}
+              >
+                {isMobile ? "Welcome to" : "Welcome to the"}
+                <br />
+                {isMobile ? "Boutique" : "Boutique"}
+              </Typography>
+            </Box>
           </Box>
         ))}
       </Carousel>

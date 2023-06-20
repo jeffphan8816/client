@@ -1,6 +1,6 @@
 export const rootLoader = async () => {
   const response = await fetch(
-    "http://localhost:1338/api/items?populate=image",
+    `${process.env.REACT_APP_BACKEND_URL}/api/items?populate=image`,
     { method: "GET" }
   );
   const data = await response.json();

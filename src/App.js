@@ -25,27 +25,23 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/", element: <Navigate to='/home' replace /> },
+      { path: "/", element: <Navigate to="/home" replace /> },
       { path: "home", element: <Home />, loader: rootLoader },
       {
         path: "item/:itemId",
         element: <ItemDetails />,
         loader: itemLoader,
       },
-    ],
-  },
-  {
-    path: "/checkout",
-    errorElement: <ErrorPage />,
-    children: [
       {
-        path: "",
-        element: <Checkout />,
-      },
-      {
-        path: "success/:sessionId",
-        element: <CheckoutConfirmation />,
-        loader: checkoutLoader,
+        path: "checkout",
+        children: [
+          { index: true, element: <Checkout /> },
+          {
+            path: "success/:sessionId",
+            element: <CheckoutConfirmation />,
+            loader: checkoutLoader,
+          },
+        ],
       },
     ],
   },
@@ -53,7 +49,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <RouterProvider router={router} />
     </div>
   );

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Typography,
@@ -13,6 +13,7 @@ import { useState } from "react";
 import Shipping from "./Shipping";
 import Payment from "./Payment";
 import { loadStripe } from "@stripe/stripe-js";
+import { updateCart } from "../../state";
 
 const stripePromise = loadStripe(
   "pk_test_51MwbYWDZhLa238hLQgae6bzkliuSe01YV3cJ0OP7ic3i6ZiFoakMFkzRdMvaof6eLr1hGrewZCn84IEITXzppYev0011fZFAuz"
@@ -96,6 +97,7 @@ const checkoutSchema = [
 
 const Checkout = () => {
   const cart = useSelector((state) => state.cart.cart);
+  const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
   const isFirstStep = activeStep === 0;
   const isSecondStep = activeStep === 1;
@@ -103,7 +105,10 @@ const Checkout = () => {
     const stripe = await stripePromise;
 
     const requestBody = {
-      userName: [values.billingAddress.firstName, values.billingAddress.lastName].join(" "),
+      userName: [
+        values.billingAddress.firstName,
+        values.billingAddress.lastName,
+      ].join(" "),
       email: values.email,
       products: cart.map(({ id, quantity }) => ({
         id,
@@ -111,17 +116,25 @@ const Checkout = () => {
       })),
     };
 
-    const response = await fetch("http://localhost:1338/api/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URL}/api/orders`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      }
+    );
 
     const session = await response.json();
-    console.log("🚀 ~ file: checkout.jsx:123 ~ makePayment ~ session:", session)
-    await stripe.redirectToCheckout({ sessionId: session.id});
+    console.log(
+      "🚀 ~ file: checkout.jsx:123 ~ makePayment ~ session:",
+      session
+    );
+    dispatch(updateCart([]));
+    localStorage.setItem("cart", JSON.stringify([]));
+    await stripe.redirectToCheckout({ sessionId: session.id });
   }
 
   const handleFormSubmit = async (values, actions) => {
@@ -141,7 +154,7 @@ const Checkout = () => {
   };
 
   return (
-    <Box>
+    <Box width='80%' margin='100px auto'>
       <Stepper activeStep={activeStep}>
         <Step>
           <StepLabel>Shipping</StepLabel>
